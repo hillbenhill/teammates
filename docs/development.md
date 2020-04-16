@@ -2,16 +2,17 @@
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
-* [Managing the dev server: front-end](#managing-the-dev-server-front-end)
-* [Managing the dev server: back-end](#managing-the-dev-server-back-end)
-* [Building front-end files](#building-front-end-files)
-* [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
-* [Testing](#testing)
-* [Deploying to a staging server](#deploying-to-a-staging-server)
-* [Running client scripts](#running-client-scripts)
-* [Config points](#config-points)
+- [Managing the dev server: front-end](#managing-the-dev-server-front-end)
+- [Managing the dev server: back-end](#managing-the-dev-server-back-end)
+- [Building front-end files](#building-front-end-files)
+- [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
+- [Testing](#testing)
+- [Deploying to a staging server](#deploying-to-a-staging-server)
+- [Running client scripts](#running-client-scripts)
+- [Config points](#config-points)
 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
+
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
 - It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
@@ -25,11 +26,13 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 Front-end dev server is the Angular-based server handling the user interface.
 
 First, you need to compile some type definitions from the back-end to be used in this dev server. Run the following command:
+
 ```sh
 ./gradlew generateTypes
 ```
 
 To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
+
 ```sh
 npm run start
 ```
@@ -54,12 +57,14 @@ Back-end dev server is the Google App Engine-based server handling all the busin
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
+
 ```sh
 ./gradlew appengineStart
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
+
 ```sh
 ./gradlew appengineRun
 ```
@@ -69,6 +74,7 @@ The dev server URL will be `http://localhost:8080` as specified in `build.gradle
 ### Stopping the dev server
 
 If you started the server in the background, run the following command to stop it:
+
 ```sh
 ./gradlew appengineStop
 ```
@@ -77,9 +83,10 @@ If the server is running in the foreground, press `Ctrl + C` (or equivalent in y
 
 ## Building front-end files
 
-In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
+In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be _bundled and transpiled_ (afterwards `built`).
 
 Run the following commands to build the front-end files for the application's use in production mode:
+
 ```sh
 # Generate type definition file from back-end
 ./gradlew generateTypes
@@ -93,6 +100,7 @@ After this, the back-end dev server will also be able to serve the front-end.
 ## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
+
 - The local dev server is assumed to be accessible at `http://localhost:8080`.
   - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`. However, a back-end server needs to be running in order for the authentication logic to work.
 - If a URL is given as relative, prepend the server URL to access the page, e.g `/web/page/somePage` is accessible in dev server at `http://localhost:8080/web/page/somePage`.
@@ -102,8 +110,8 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
 1. On the production server, you will be granted the access only if your account has administrator permission to the application.
-1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
- e.g `http://localhost:8080/web/student/home?user=johnKent`.
+1. When logged in as administrator, **_masquerade mode_** can also be used to impersonate instructors and students by adding `user=username` to the URL
+   e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
 ### As instructor
 
@@ -132,6 +140,7 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 You need a student account which can be created by instructors (with sufficient privileges).
 
 The steps for adding a student is almost identical to the steps for adding instructors by another instructor:
+
 - Where appropriate, change the reference to "instructor" to "student".
 - `Students` → `Enroll` to add students for the course.
 
@@ -158,6 +167,7 @@ POST http://localhost:8080/_ah/login?action=Log+Out
 ## Testing
 
 There are two big categories of testing in TEAMMATES:
+
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
 - **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`.
 
@@ -169,32 +179,35 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 
 #### Using Firefox
 
-* You need to use geckodriver for testing with Firefox.
-  * Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
+- You need to use geckodriver for testing with Firefox.
+
+  - Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
     The site will also inform the versions of Firefox that can be used with the driver.
-  * Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
+  - Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
 
-* If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
+- If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
+- If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
+  - Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
 
 #### Using Chrome
 
-* You need to use chromedriver for testing with Chrome.
-  * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+- You need to use chromedriver for testing with Chrome.
+
+  - Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
     The site will also inform the versions of Chrome that can be used with the driver.
-  * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
+  - Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
 
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
-  * Press Ctrl+Shift+J to bring up the Web Console.
-  * Click on the settings button at the bottom right corner.
-  * Under the General tab, check "Disable Cache".
+- If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
 
-* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
+  - Press Ctrl+Shift+J to bring up the Web Console.
+  - Click on the settings button at the bottom right corner.
+  - Under the General tab, check "Disable Cache".
+
+- The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
   You will need to manually kill these processes after the tests are done.
-  * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
-  * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
+  - On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
+  - On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 
 ### Running the tests
 
@@ -203,11 +216,13 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 #### Running the tests with command line
 
 To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
+
 ```sh
 npm run test
 ```
 
 To run all front-end component tests once and generate coverage data afterwards, run the following command:
+
 ```sh
 npm run coverage
 ```
@@ -218,20 +233,22 @@ To run all tests in a test file (or all test files matching a pattern), you can 
 
 Back-end component tests and E2E tests follow this configuration:
 
-Test suite | Command | Results can be viewed in
----|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`Failed tests` | `./gradlew failedTests` | `{project folder}/build/reports/test-failed/index.html`
-Any individual test | `./gradlew test --tests TestClassName` | `{project folder}/build/reports/tests/index.html`
+| Test suite          | Command                                | Results can be viewed in                                                                                               |
+| ------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Component tests`   | `./gradlew componentTests`             | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run |
+| `E2E tests`         | `./gradlew e2eTests`                   | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run       |
+| `Failed tests`      | `./gradlew failedTests`                | `{project folder}/build/reports/test-failed/index.html`                                                                |
+| Any individual test | `./gradlew test --tests TestClassName` | `{project folder}/build/reports/tests/index.html`                                                                      |
 
 - `Component tests` and `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
 - Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
+
 ```sh
 ./gradlew appengineRun componentTests jacocoReport
 ```
+
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
 ### Testing against production server
@@ -239,16 +256,18 @@ The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 If you are testing against a production server (staging server or live server), some additional tasks need to be done.
 
 1. You need to setup a `Gmail API`<sup>1</sup> as follows:
-   * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md) and download it.
-   * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
-   * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
+
+   - [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md) and download it.
+   - Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
+   - It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
-   * In particular, you will need legitimate Google accounts to be used for testing.
+
+   - In particular, you will need legitimate Google accounts to be used for testing.
 
 1. Run the full test suite or any subset of it as how you would have done it in dev server.
-   * You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
-   * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+   - You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
+   - Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
 
 <sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
 This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
@@ -266,35 +285,40 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-* If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
-* It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
+- If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
+- It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
 
 There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
-* `build.properties`: Contains the general purpose configuration values to be used by the web API.
-* `config.ts`: Contains the general purpose configuration values to be used by the web application.
-* `test.properties`: Contains the configuration values for the test driver.
-  * There are two separate `test.properties`; one for component tests and one for E2E tests.
-* `client.properties`: Contains some configuration values used in client scripts.
-* `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
+
+- `build.properties`: Contains the general purpose configuration values to be used by the web API.
+- `config.ts`: Contains the general purpose configuration values to be used by the web application.
+- `test.properties`: Contains the configuration values for the test driver.
+  - There are two separate `test.properties`; one for component tests and one for E2E tests.
+- `client.properties`: Contains some configuration values used in client scripts.
+- `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
-* `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
-* `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
-* `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
-* `angular.json`: Contains the Angular application configuration.
-* `.travis.yml`: Contains the Travis CI job configuration.
-* `appveyor.yml`: Contains the AppVeyor CI job configuration.
+
+- `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
+- `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
+- `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
+- `angular.json`: Contains the Angular application configuration.
+- `.travis.yml`: Contains the Travis CI job configuration.
+- `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
-* `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
+
+- `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
-* `logging.properties`: Contains the java.util.logging configuration.
-* `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.xml`: Contains the cron jobs specification.
-* `queue.xml`: Contains the task queues configuration.
-* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
+
+- `logging.properties`: Contains the java.util.logging configuration.
+- `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
+- `cron.xml`: Contains the cron jobs specification.
+- `queue.xml`: Contains the task queues configuration.
+- `datastore-indexes.xml`: Contains the Datastore indexes configuration.
+- just adding a commentgit add Contributors.md

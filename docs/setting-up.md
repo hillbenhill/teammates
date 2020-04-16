@@ -30,7 +30,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 
 1. Set your `master` branch to track the main repo's `master` branch.
    ```sh
-   git checkout master
+   git branch -r
    git branch -u upstream/master
    ```
 
