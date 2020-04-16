@@ -1,0 +1,5 @@
+{"project":"<your-key-here>", "sonarURL": "<your-sonar-url>",
+"sonar.github.oaut":"5e7ad6573148e2fca6f5cb6978de4b4e68c09e34",
+"sonar.github.repository":"https://github.com/hillbenhill/teammates.git",
+"sonar.github.pullRequest":"60ff98631d6645afc68e64f82e39d8e435c9a31d"
+ }
