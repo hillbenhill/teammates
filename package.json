@@ -33,7 +33,7 @@
     "@tinymce/tinymce-angular": "^3.3.1",
     "bootstrap": "^4.4.1",
     "classlist.js": "^1.1.20150312",
-    "d3": "^5.15.0",
+    "d3": "^7.0.0",
     "file-saver": "^2.0.2",
     "handsontable": "^7.3.0",
     "moment-timezone": "^0.5.27",
